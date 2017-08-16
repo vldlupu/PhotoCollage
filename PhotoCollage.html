@@ -1,0 +1,106 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="4_1071_LUPU_Vlad.css">
+    <script src="lib/jquery-2.2.0.js" type="text/javascript"></script>
+    <script src="4_1071_LUPU_Vlad.js" type="text/javascript"></script>
+    <h1 class="header" align="center">Photo Collage</h1>
+</head>
+<body>
+<!--Head container - folosit pentru a incarca si previzualiza imaginile dorite-->
+<div class="head-container">
+    <div style="float: left; width: 15%;">
+        <h2> Choose a picture:</h2>
+        <input type="file"  id="inputFile" accept="image/*" onchange="loadImages(this)">
+    </div>
+    <div class="photo-container" id="photo1">
+        <img class="photo-container" src="media/image-add-icon.png" id="images1" onclick="insertPhoto(this)">
+    </div>
+    <div class="photo-container" id="photo2">
+        <img class="photo-container" src="media/image-add-icon.png" id="images2" onclick="insertPhoto(this)">
+    </div>
+    <div class="photo-container" id="photo3">
+        <img class="photo-container" src="media/image-add-icon.png" id="images3" onclick="insertPhoto(this)">
+    </div>
+    <div class="photo-container" id="photo4">
+        <img class="photo-container" src="media/image-add-icon.png" id="images4" onclick="insertPhoto(this)">
+    </div>
+    <!--functie jQuery folosita la incarcarea imaginilor prin drag and drop-->
+    <script>
+        $.event.props.push("dataTransfer");
+        $(document)
+            .on('dragover', function (e) {
+                e.preventDefault();
+            })
+            .on('drop', function (e) {
+                e.preventDefault();
+                var files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        loadImagesByDrop($("<img></img>")
+                                .attr("src", e.target.result)[0]);
+                    };
+                    reader.readAsDataURL(files[0]);
+                }
+            });
+    </script>
+</div>
+<!--Canvas-->
+<div class="div-canvas" >
+    <canvas class="canvas" id="canvas"></canvas>
+</div>
+<!--Grid container - afisarea sabloanelor predefinite si permite utulizatorului sa selecte unul-->
+<div class="grid-container">
+    <div class="title">
+        <p align="center" style="height: 20%; font-size: large">Choose a layout</p>
+    </div>
+    <div class="layout-container">
+        <img id="img-layout1" src="media/sablon1.0.jpg" style="height: 100%; width: 33%" onclick="loadLayout1()">
+        <img id="img-layout2" src="media/sablon2.0.jpg" style="height: 100%; width: 32%" onclick="loadLayout2()">
+        <img id="img-layout3" src="media/sablon3.0.jpg" style="height: 100%; width: 32%" onclick="loadLayout3()">
+    </div>
+</div>
+<!--Background container - afisarea imaginilor de fundal predefinite si permite utilizatorului sa aleaga una-->
+<!--Functia loadBackground0() situata pe div-ul titlului permite prin click stergerea imagiinii de fundal actuala,
+implicit golirea canvasului-->
+<div class="background-container">
+    <div class="title" onclick="loadBackground0()">
+        <p align="center" style="height: 20%; font-size: large">Choose a background</p>
+    </div>
+    <div class="backgrounds">
+        <img id="img-background1" src="media/instagram1.jpg" style="height: 100%; width: 33%" onclick="loadBackground1()">
+        <img id="img-background2" src="media/instagram2.jpg" style="height: 100%; width: 32%" onclick="loadBackground2()">
+        <img id="img-background3" src="media/instagram3.jpg" style="height: 100%; width: 32%" onclick="loadBackground3()">
+    </div>
+</div>
+<!--Options container - menu creat pentru manipularea si aplicarea efectelor pe canvas-->
+<!--ATENTIE: nu este implementata functionalitate pentru acest menu, doar interfata-->
+<div class="options-container">
+
+    <button class="save-button" id="save-btn" onclick="saveImage()">
+        Save photo!
+    </button>
+    <button class="image-button" id="img-btn1">
+    Image 1
+    </button>
+    <button class="image-button" id="img-btn2">
+        Image 2
+    </button>
+    <button class="image-button" id="img-btn3">
+        Image 3
+    </button>
+    <button class="image-button" id="img-btn4">
+        Image 4
+    </button>
+    <button class="effect-button" id="eff-btn1">
+        Greyscale
+    </button>
+    <button class="effect-button" id="eff-btn2">
+        Brightness
+    </button>
+    <button class="effect-button" id="eff-btn3">
+        Treshold
+    </button>
+</div>
+</body>
+</html>
